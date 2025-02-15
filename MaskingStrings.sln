@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.11.35327.3
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaskingStrings", "MaskingStrings\MaskingStrings.csproj", "{CD5E0554-EF24-4997-9C7B-7A2F00C62DB2}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "MaskingStrings", "MaskingStrings\MaskingStrings.csproj", "{CD5E0554-EF24-4997-9C7B-7A2F00C62DB2}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MaskingStringsTests", "MaskingStringsTests\MaskingStringsTests.csproj", "{95DCC149-8FAF-43F1-BFDD-E1678AB4F107}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -15,6 +17,10 @@ Global
 		{CD5E0554-EF24-4997-9C7B-7A2F00C62DB2}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{CD5E0554-EF24-4997-9C7B-7A2F00C62DB2}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{CD5E0554-EF24-4997-9C7B-7A2F00C62DB2}.Release|Any CPU.Build.0 = Release|Any CPU
+		{95DCC149-8FAF-43F1-BFDD-E1678AB4F107}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{95DCC149-8FAF-43F1-BFDD-E1678AB4F107}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{95DCC149-8FAF-43F1-BFDD-E1678AB4F107}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{95DCC149-8FAF-43F1-BFDD-E1678AB4F107}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
