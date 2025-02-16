@@ -1,110 +1,33 @@
 ﻿using System.Net.Http.Headers;
 using System.Text;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace MaskingStrings
 {
-    public class MaskingObject
+    public abstract class MaskingObject
     {
-        static readonly char[] charsMask =
-            "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ".ToCharArray();
-        static readonly Dictionary<char, byte> parametersForMask = new Dictionary<char, byte>();
-
-        public static string ReverseMask(object inputData)
+        public string MaskingData(object inputData)
         {
             string inputString = TypeConverterToString(inputData);
-            string maskString = "";
-
-            for (int i = inputString.Length - 1; i >= 0; i--)
-            {
-                maskString += inputString[i];
-            }
-
+            string maskString = MaskingAlgorithm(inputString);
             return maskString;
         }
-        
-
-        public static string RandomSwapMask(object inputData)
+       
+        public string[] MaskingData(object[] inputData)
         {
-            string inputString = TypeConverterToString(inputData);
-            char temp;
-            char[] buffer = inputString.ToCharArray();
-            int position;
-            Random random = new Random();
-
-            for (int i = 0; i < buffer.Length; i++)
+            string[] maskStrings = new string[inputData.Length];
+            for(int i = 0; i < inputData.Length; i++)
             {
-                if (buffer[i] == ' ') continue;
-
-                do
-                {
-                    position = random.Next(buffer.Length);
-                } while (buffer[position] == ' ');
-
-                temp = buffer[position];
-                buffer[position] = buffer[i];
-                buffer[i] = temp;
-
+                maskStrings[i] = MaskingData(inputData[i]);
             }
-            return new string(buffer);
+            return maskStrings;
         }
-
-        public static string RandomMask(object inputData, bool predictable)
-        {
-            string inputString = TypeConverterToString(inputData);
-            Random random = new();
-            byte[] maskForString = new byte[inputString.Length];
-
-
-            for (int i = 0; i < maskForString.Length; i++)
-            {
-                if (IsCorrect(inputString[i]))
-                {
-                    if (predictable)
-                    {
-                        if (!parametersForMask.ContainsKey(inputString[i])) AddNewParameter(inputString[i]);
-
-                        maskForString[i] = parametersForMask[inputString[i]];
-                    }
-                    else maskForString[i] = (byte)random.Next(33, 127);
-                }
-                else maskForString[i] = Convert.ToByte(inputString[i]);
-
-
-            }
-
-            return Encoding.ASCII.GetString(maskForString);
-        }
-
-        
-
-        private static bool IsCorrect(char inputChar) => !(inputChar == ' ' || inputChar == '\t' || inputChar == '\n' || inputChar == '\v');
-
-        private static void AddNewParameter(char token)
-        {
-            Random random = new Random();
-            byte parameter = (byte)random.Next(1, 20);
-            byte tokenMask;
-
-            if (Array.IndexOf(charsMask, token) != -1)
-            {
-                tokenMask = (byte)(33 + Array.IndexOf(charsMask, token));
-            }
-            else tokenMask = (byte)(Convert.ToByte(token) + parameter);
-
-            if (tokenMask > 127) tokenMask = (byte)(33 + tokenMask - 127);
-
-            parametersForMask.Add(token, tokenMask);
-
-        }
-
-        private static string TypeConverterToString(object data)
+        protected abstract string MaskingAlgorithm(string inputString);
+        private string TypeConverterToString(object data)
         {
             string dataString = "";
-
-            if (data is String) dataString = (string)data;
-
+            if (data is System.String) dataString = (string)data;
             else if (data is Int32) dataString = data.ToString();
-
             else if (data is DateTime) dataString = data.ToString();
 
             else
