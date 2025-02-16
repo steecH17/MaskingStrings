@@ -12,7 +12,16 @@ namespace MaskingStringsTests
 
         [Theory]
         [InlineData("Ivan Romanov 24345")]
+        [InlineData("34578 Владимиров - менеджер")]
         public void RandomMaskingNonParameterTest(string input) => Assert.NotEqual(input, MaskingObject.RandomMask(input, false));
+
+        [Theory]
+        [InlineData("Dmitriy Solodov 12/12/2000")]
+        [InlineData("Никита Мастюгин 12.10.1990 - инженер")]
+        public void RandomMaskingParameterTest(string input)
+        {
+            Assert.Equal(MaskingObject.RandomMask(input, true), MaskingObject.RandomMask(input, true));
+        }
 
 
 
