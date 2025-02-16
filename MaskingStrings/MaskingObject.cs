@@ -9,20 +9,23 @@ namespace MaskingStrings
             "абвгдеёжзийклмнопрстуфхцчшщъыьэюяАБВГДЕЁЖЗИЙКЛМНОПРСТУФХЦЧШЩЪЫЬЭЮЯ".ToCharArray();
         static readonly Dictionary<char, byte> parametersForMask = new Dictionary<char, byte>();
 
-        public static string ReverseMask(string inputString)
+        public static string ReverseMask(object inputData)
         {
+            string inputString = TypeConverterToString(inputData);
             string maskString = "";
-            
-            for(int i = inputString.Length - 1; i >= 0; i--)
+
+            for (int i = inputString.Length - 1; i >= 0; i--)
             {
                 maskString += inputString[i];
             }
 
             return maskString;
         }
+        
 
-        public static string RandomSwapMask(string inputString)
+        public static string RandomSwapMask(object inputData)
         {
+            string inputString = TypeConverterToString(inputData);
             char temp;
             char[] buffer = inputString.ToCharArray();
             int position;
@@ -45,8 +48,9 @@ namespace MaskingStrings
             return new string(buffer);
         }
 
-        public static string RandomMask(string inputString, bool predictable)
+        public static string RandomMask(object inputData, bool predictable)
         {
+            string inputString = TypeConverterToString(inputData);
             Random random = new();
             byte[] maskForString = new byte[inputString.Length];
 
@@ -71,6 +75,8 @@ namespace MaskingStrings
             return Encoding.ASCII.GetString(maskForString);
         }
 
+        
+
         private static bool IsCorrect(char inputChar) => !(inputChar == ' ' || inputChar == '\t' || inputChar == '\n' || inputChar == '\v');
 
         private static void AddNewParameter(char token)
@@ -89,6 +95,24 @@ namespace MaskingStrings
 
             parametersForMask.Add(token, tokenMask);
 
+        }
+
+        private static string TypeConverterToString(object data)
+        {
+            string dataString = "";
+
+            if (data is String) dataString = (string)data;
+
+            else if (data is Int32) dataString = data.ToString();
+
+            else if (data is DateTime) dataString = data.ToString();
+
+            else
+            {
+                throw new Exception("Неверный тип входных данных! Тип данных для работы с данным методом : String, DateTime, Int32.");
+            }
+
+            return dataString;
         }
     }
 }
